@@ -1,3 +1,6 @@
+Note: Application source adapted from DockerSamples example-voting-app.
+DevOps configuration, orchestration, and documentation implemented by me.
+
 # Example Voting App
 
 A simple distributed application running across multiple Docker containers.
