@@ -3,6 +3,7 @@
 # docker-compose v1.27+ required
 
 services:
+  # Frountend voting UI
   vote:
     build: 
       context: ./vote
@@ -18,12 +19,11 @@ services:
       start_period: 10s
     volumes:
      - ./vote:/usr/local/app
-    ports:
-      - "8080:80"
     networks:
       - front-tier
       - back-tier
 
+  # frountend result UI
   result:
     build: ./result
     # use nodemon rather than node for local dev
@@ -33,13 +33,11 @@ services:
         condition: service_healthy 
     volumes:
       - ./result:/usr/local/app
-    ports:
-      - "8081:80"
-      - "127.0.0.1:9229:9229"
     networks:
       - front-tier
       - back-tier
 
+  # backend worker redis to db
   worker:
     build:
       context: ./worker
@@ -51,6 +49,7 @@ services:
     networks:
       - back-tier
 
+  # temporarily store vote 
   redis:
     image: redis:alpine
     volumes:
@@ -61,11 +60,13 @@ services:
     networks:
       - back-tier
 
+  # backend store vote
   db:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - "db-data:/var/lib/postgresql/data"
       - "./healthchecks:/healthchecks"

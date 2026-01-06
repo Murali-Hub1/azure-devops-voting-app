@@ -1,0 +1,6 @@
+services:
+  vote:
+    ports: []
+
+  result:
+    ports: []

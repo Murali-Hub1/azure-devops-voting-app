@@ -1,0 +1,8 @@
+services:
+  vote:
+    ports:
+      - "8080:80"
+
+  result:
+    ports:
+      - "8081:80"
